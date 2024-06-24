@@ -1,4 +1,0 @@
-This is a test file!
-This has been changed!
-sdlkfjgn
-database password is "password", keep it a secret!
