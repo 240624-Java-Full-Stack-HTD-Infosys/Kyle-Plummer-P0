@@ -1,8 +1,5 @@
 package com.revature.p0.menus;
 
-import com.revature.p0.MenuUtil;
-import com.revature.p0.menus.Menu;
-
 import java.util.Scanner;
 
 public class MainMenu implements Menu {

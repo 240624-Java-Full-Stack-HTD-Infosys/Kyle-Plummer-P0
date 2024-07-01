@@ -1,6 +1,4 @@
-package com.revature.p0;
-
-import com.revature.p0.menus.Menu;
+package com.revature.p0.menus;
 
 import java.util.ArrayList;
 import java.util.List;

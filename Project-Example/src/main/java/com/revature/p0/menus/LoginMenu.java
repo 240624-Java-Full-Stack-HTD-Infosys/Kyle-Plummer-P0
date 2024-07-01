@@ -1,7 +1,6 @@
 package com.revature.p0.menus;
 
-import com.revature.p0.FakeDatabase;
-import com.revature.p0.MenuUtil;
+import com.revature.p0.utils.FakeDatabase;
 
 import java.util.Scanner;
 
