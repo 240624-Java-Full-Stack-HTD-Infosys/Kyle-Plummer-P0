@@ -3,14 +3,13 @@ package com.revature.p0.utils;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+
 import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionUtil {
 
-
-    public static void main(String[] args) throws SQLException, IOException {
+    public static Connection getConnection() throws SQLException, IOException {
         /*
         First we want to load the properties from application.properties. We want to avoid hard coding our credentials
         in the repo.
@@ -34,10 +33,13 @@ public class ConnectionUtil {
         /*
         Now that we have a connection to the database we can use it to create statements to execute.
          */
-        String sql = "INSERT INTO test VALUES (1, 'kplummer')";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
+//        String sql = "INSERT INTO test VALUES (1, 'kplummer')";
+//        PreparedStatement pstmt = conn.prepareStatement(sql);
+//
+//        pstmt.executeUpdate();
 
-        pstmt.executeUpdate();
-
+        return conn;
     }
+
+
 }
