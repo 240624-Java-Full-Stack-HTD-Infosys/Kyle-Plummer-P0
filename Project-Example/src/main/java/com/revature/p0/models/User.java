@@ -4,11 +4,20 @@ package com.revature.p0.models;
 import java.util.List;
 
 public class User {
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
     List<Task> tasks;
+
+    public User(Integer userId, String firstName, String lastName, String username, String password) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+    }
 
     public User(String firstName, String lastName, String username, String password, List<Task> tasks) {
         this.firstName = firstName;

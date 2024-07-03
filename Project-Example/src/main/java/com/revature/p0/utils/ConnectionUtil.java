@@ -19,6 +19,7 @@ public class ConnectionUtil {
         We use a Properties object which can parse our key/value pairs. We ask for the key, we get the value.
 
          */
+
         InputStream inputStream = ConnectionUtil.class.getClassLoader().getResourceAsStream("application.properties");
         Properties props = new Properties();
         props.load(inputStream);
@@ -26,6 +27,7 @@ public class ConnectionUtil {
         /*
         Now that we have our properties we can use these to establish a connection
          */
+//        Class.forName("org.postgresql.jdbc");
         Connection conn = DriverManager.getConnection(props.getProperty("url"), props.getProperty("username"), props.getProperty("password"));
 
 
