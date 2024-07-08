@@ -12,6 +12,7 @@ import io.javalin.Javalin;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 
@@ -20,43 +21,41 @@ public class Driver {
         Javalin app = Javalin.create().start(7777);
         User user = new User("Kyle", "plummer","username","password");
 
-        UserController userController = new UserController(new UserService(new UserDao(ConnectionUtil.getConnection())));
+        //UserController userController = new UserController(new UserService(new UserDao(ConnectionUtil.getConnection())));
 
-        app.get("/user",
-            (ctx) -> {
-                ctx.json(user);
-                ctx.status(200);
-                System.out.println("this is inside the function body");
-            }
-        );
 
-        app.post("/user",
-            (ctx) -> {
-                ctx.status(201);
-                ctx.json(userController.postNewUser(ctx.bodyAsClass(User.class)));
-            }
-        );
 
-        app.get("/user/{username}",
-            (ctx) -> {
-                ctx.status(200);
-                ctx.json(userController.getUserByUsername(ctx.pathParam("username")));
-                System.out.println("this is inside the function body");
-            }
-        );
+        //post new user test
+//        app.post("/user",
+//            (ctx) -> {
+//                ctx.status(201);
+//                ctx.json(userController.postNewUser(ctx.bodyAsClass(User.class)));
+//            }
+//        );
 
-        app.get("/user/{username}/test2",
-            (ctx) -> {
-                ctx.status(200);
-                User result = userController.getUserByUsername(ctx.pathParam("username"));
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonString = mapper.writeValueAsString(result);
-                System.out.println(jsonString);
-                ctx.header("Content-Type", "application/json; UTF-8;");
-                ctx.result(jsonString);
-            }
-        );
+        //path param test
+//        app.get("/user/{username}",
+//            (ctx) -> {
+//                ctx.status(200);
+//                ctx.json(userController.getUserByUsername(ctx.pathParam("username")));
+//                System.out.println("this is inside the function body");
+//            }
+//        );
 
+        //path param test 2
+//        app.get("/user/{username}/test2",
+//            (ctx) -> {
+//                ctx.status(200);
+//                User result = userController.getUserByUsername(ctx.pathParam("username"));
+//                ObjectMapper mapper = new ObjectMapper();
+//                String jsonString = mapper.writeValueAsString(result);
+//                System.out.println(jsonString);
+//                ctx.header("Content-Type", "application/json; UTF-8;");
+//                ctx.result(jsonString);
+//            }
+//        );
+
+        //headers test
         app.get("/headers-test",
             (ctx)->{
                 String contentType = ctx.header("Content-Type");
@@ -67,11 +66,24 @@ public class Driver {
             }
         );
 
-        app.get("/login",
-            (ctx)->{
-                ctx.status(200);
-                ctx.json(userController.login(ctx.bodyAsClass(AuthDto.class)));
-            }
+
+        //query params test
+//        app.get("/query-params",
+//            (ctx)->{
+//                ctx.status(200);
+//                String username = ctx.queryParam("username");
+//                ctx.json(userController.getUserByUsername(username));
+//            }
+//        );
+
+        app.get("/query-params-print",
+                (ctx)->{
+                    ctx.status(200);
+                    Map<String, List<String>> queryParams = ctx.queryParamMap();
+                    for(String key : queryParams.keySet()) {
+                        System.out.println("[" + key + "]: " + queryParams.get(key));
+                    }
+                }
         );
 
 
