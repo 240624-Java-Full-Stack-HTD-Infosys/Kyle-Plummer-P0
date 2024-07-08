@@ -9,7 +9,7 @@ import java.sql.*;
 public class UserDao {
     Connection connection;
 
-    public UserDao(Connection connection) throws SQLException, IOException {
+    public UserDao(Connection connection) throws SQLException, IOException, ClassNotFoundException {
         this.connection = ConnectionUtil.getConnection();
     }
 
@@ -34,6 +34,7 @@ public class UserDao {
     public void populateTable() throws SQLException {
         String sql = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = connection.prepareStatement(sql);
+
         pstmt.setString(1, "Kyle");
         pstmt.setString(2, "Plummer");
         pstmt.setString(3, "kplummer");
@@ -57,7 +58,7 @@ public class UserDao {
         return user;
     }
 
-    public User getUser(String username) throws SQLException {
+    public User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, username);
@@ -65,9 +66,11 @@ public class UserDao {
 
         User user = new User();
         if(results.next()) {
+            user.setUserId(results.getInt("user_id"));
             user.setFirstName(results.getString("first_name"));
             user.setLastName(results.getString("last_name"));
             user.setUsername(results.getString("username"));
+            user.setPassword(results.getString("password"));
         }
 
         return user;
@@ -77,7 +80,39 @@ public class UserDao {
      * This method will save a User object, or if the object has a valid ID will update the existing row
      * @param user
      */
-    public void saveUser(User user) {
-        if(user.get)
+    public User saveUser(User user) throws SQLException {//create AND update
+        if(user.getUserId() == null) {
+            //save the new user
+            String sql = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
+            pstmt.setString(3, user.getUsername());
+            pstmt.setString(4, user.getPassword());
+
+            pstmt.executeUpdate();
+
+            ResultSet keys = pstmt.getGeneratedKeys();
+
+            if(keys.next()) {
+                user.setUserId(keys.getInt(1));
+            }
+
+        } else {
+            //update the existing user row
+            String sql = "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
+            pstmt.setString(3, user.getUsername());
+            pstmt.setString(4, user.getPassword());
+
+            pstmt.executeUpdate();
+        }
+
+        return user;
     }
+
+
+
 }

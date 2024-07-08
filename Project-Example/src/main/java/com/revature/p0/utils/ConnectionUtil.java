@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class ConnectionUtil {
 
-    public static Connection getConnection() throws SQLException, IOException {
+    public static Connection getConnection() throws SQLException, IOException, ClassNotFoundException {
         /*
         First we want to load the properties from application.properties. We want to avoid hard coding our credentials
         in the repo.
@@ -27,7 +27,7 @@ public class ConnectionUtil {
         /*
         Now that we have our properties we can use these to establish a connection
          */
-//        Class.forName("org.postgresql.jdbc");
+        Class.forName("org.postgresql.Driver");
         Connection conn = DriverManager.getConnection(props.getProperty("url"), props.getProperty("username"), props.getProperty("password"));
 
 

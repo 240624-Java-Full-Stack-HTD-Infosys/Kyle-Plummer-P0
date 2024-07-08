@@ -2,10 +2,11 @@ package com.revature.p0.models;
 
 
 public class Task {
+    private Integer taskId;
     private String title;
     private String description;
     private boolean complete;
-    User user;
+    private User user;
 
     public Task(String title, String description, boolean complete, User user) {
         this.title = title;

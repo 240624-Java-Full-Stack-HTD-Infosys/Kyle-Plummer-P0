@@ -9,7 +9,7 @@ public class User {
     private String lastName;
     private String username;
     private String password;
-    List<Task> tasks;
+    private List<Task> tasks;
 
     public User(Integer userId, String firstName, String lastName, String username, String password) {
         this.userId = userId;
@@ -18,6 +18,7 @@ public class User {
         this.username = username;
         this.password = password;
     }
+
 
     public User(String firstName, String lastName, String username, String password, List<Task> tasks) {
         this.firstName = firstName;
@@ -35,6 +36,15 @@ public class User {
     }
 
     public User() {
+
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
