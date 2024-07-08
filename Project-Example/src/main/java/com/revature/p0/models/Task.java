@@ -8,6 +8,14 @@ public class Task {
     private boolean complete;
     private User user;
 
+    public Task(Integer taskId, String title, String description, boolean complete, User user) {
+        this.taskId = taskId;
+        this.title = title;
+        this.description = description;
+        this.complete = complete;
+        this.user = user;
+    }
+
     public Task(String title, String description, boolean complete, User user) {
         this.title = title;
         this.description = description;

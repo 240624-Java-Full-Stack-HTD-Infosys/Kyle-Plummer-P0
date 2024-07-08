@@ -9,9 +9,11 @@ import java.sql.SQLException;
 
 public class UserService {
     UserDao userDao;
+    TaskService taskService;
 
-    public UserService(UserDao userDao) {
+    public UserService(UserDao userDao, TaskService taskService) {
         this.userDao = userDao;
+        this.taskService = taskService;
     }
 
     public User registerNewUser(User user) throws SQLException {
@@ -35,6 +37,8 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) throws SQLException {
-        return userDao.getUserByUsername(username);
+        User user = userDao.getUserByUsername(username);
+        taskService.getTasksForUser(user);
+        return user;
     }
 }
