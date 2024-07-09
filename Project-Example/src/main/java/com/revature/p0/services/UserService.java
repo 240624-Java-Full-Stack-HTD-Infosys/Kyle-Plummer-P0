@@ -20,15 +20,12 @@ public class UserService {
         return userDao.saveUser(user);
     }
 
-    public User authenticateUser(String username, String password) throws NoSuchUserException, BadPasswordException {
-        User result;
-        try{
-            result =  userDao.getUserByUsername(username);
-        } catch (SQLException e) {
-            throw new NoSuchUserException("User not found");
-        }
+    public User authenticateUser(String username, String password) throws NoSuchUserException, BadPasswordException, SQLException {
+        User result = userDao.getUserByUsername(username);
 
-        if(result.getPassword().equals(password)) {
+        if(result.getUserId() == null) {
+            throw new NoSuchUserException("User not found");
+        } else if(result.getPassword().equals(password)) {
             return result;
         } else {
             throw new BadPasswordException("Password mismatch!");

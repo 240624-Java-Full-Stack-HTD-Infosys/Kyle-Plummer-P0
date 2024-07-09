@@ -7,6 +7,7 @@ import com.revature.p0.models.User;
 import com.revature.p0.services.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import io.javalin.http.Cookie;
 
 import java.sql.SQLException;
 
@@ -26,13 +27,26 @@ public class UserController {
 
     }
 
-    public User login(Context ctx) throws BadPasswordException, NoSuchUserException {
-        ctx.status(200);
+    public void login(Context ctx) throws BadPasswordException, NoSuchUserException {
         AuthDto auth = ctx.bodyAsClass(AuthDto.class);
-        User result = userService.authenticateUser(auth.getUsername(), auth.getPassword());
-        ctx.json(result);
-        ctx.header("Auth", result.getUsername());
-        return result;
+        User result = null;
+        try {
+            result = userService.authenticateUser(auth.getUsername(), auth.getPassword());
+            ctx.json(result);
+            Cookie cookie = new Cookie("Auth", result.getUsername());
+            ctx.cookie(cookie);
+            ctx.status(200);
+        } catch (SQLException e) {
+            e.printStackTrace();//not really a good idea in prod, we should log this instead
+            //TODO: implement logging
+            throw new RuntimeException(e);
+        } catch (NoSuchUserException e) {
+            ctx.status(418);//we are making both the server and client, so we can use any status codes we want
+            ctx.result("No such user");
+        } catch (BadPasswordException e) {
+            ctx.status(401);
+            ctx.result("Bad password");
+        }
     }
 
     public User postNewUser(User user) throws SQLException {
