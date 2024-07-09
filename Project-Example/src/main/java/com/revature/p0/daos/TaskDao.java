@@ -5,10 +5,7 @@ import com.revature.p0.models.User;
 import com.revature.p0.utils.ConnectionUtil;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,7 @@ public class TaskDao {
     Connection connection;
 
     public TaskDao(Connection connection) throws SQLException, IOException, ClassNotFoundException {
-        this.connection = ConnectionUtil.getConnection();
+        this.connection = connection;
     }
 
     public List<Task> getTasksForUser(User user) throws SQLException {
@@ -38,4 +35,23 @@ public class TaskDao {
         user.setTasks(taskList);
         return taskList;
     }
+
+    public Task persistNewTask(Task task) throws SQLException {
+        String sql = "INSERT INTO tasks (title, description, completed, user_id) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        pstmt.setString(1, task.getTitle());
+        pstmt.setString(2, task.getDescription());
+        pstmt.setBoolean(3, task.isComplete());
+        pstmt.setInt(4, task.getUser().getUserId());
+        pstmt.executeUpdate();
+
+        ResultSet rs = pstmt.getGeneratedKeys();
+        if(rs.next()) {
+            task.setTaskId(rs.getInt(1));
+        }
+
+        return task;
+    }
+
+
 }

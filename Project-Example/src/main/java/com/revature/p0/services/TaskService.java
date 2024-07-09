@@ -17,4 +17,8 @@ public class TaskService {
     public List<Task> getTasksForUser(User user) throws SQLException {
         return taskDao.getTasksForUser(user);
     }
+
+    public Task saveTask(Task task) throws SQLException {
+        return taskDao.persistNewTask(task);
+    }
 }

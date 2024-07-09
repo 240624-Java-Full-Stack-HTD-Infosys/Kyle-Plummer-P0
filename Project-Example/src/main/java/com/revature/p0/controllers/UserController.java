@@ -1,7 +1,6 @@
 package com.revature.p0.controllers;
 
-import com.revature.p0.controllers.dtos.AuthDto;
-import com.revature.p0.daos.UserDao;
+import com.revature.p0.dtos.AuthDto;
 import com.revature.p0.exceptions.BadPasswordException;
 import com.revature.p0.exceptions.NoSuchUserException;
 import com.revature.p0.models.User;
@@ -30,7 +29,10 @@ public class UserController {
     public User login(Context ctx) throws BadPasswordException, NoSuchUserException {
         ctx.status(200);
         AuthDto auth = ctx.bodyAsClass(AuthDto.class);
-        return userService.authenticateUser(auth.getUsername(), auth.getPassword());
+        User result = userService.authenticateUser(auth.getUsername(), auth.getPassword());
+        ctx.json(result);
+        ctx.header("Auth", result.getUsername());
+        return result;
     }
 
     public User postNewUser(User user) throws SQLException {

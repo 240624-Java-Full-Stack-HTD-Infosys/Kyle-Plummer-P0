@@ -1,11 +1,15 @@
 package com.revature.p0.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 public class Task {
     private Integer taskId;
     private String title;
     private String description;
     private boolean complete;
+
+    @JsonBackReference
     private User user;
 
     public Task(Integer taskId, String title, String description, boolean complete, User user) {
@@ -27,6 +31,14 @@ public class Task {
         this.title = title;
         this.description = description;
         this.complete = complete;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public Task() {

@@ -1,4 +1,4 @@
-package com.revature.p0.controllers.dtos;
+package com.revature.p0.dtos;
 
 public class AuthDto {
     private String username;

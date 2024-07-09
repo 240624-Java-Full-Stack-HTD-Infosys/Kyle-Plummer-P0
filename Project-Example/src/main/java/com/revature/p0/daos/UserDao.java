@@ -10,7 +10,7 @@ public class UserDao {
     Connection connection;
 
     public UserDao(Connection connection) throws SQLException, IOException, ClassNotFoundException {
-        this.connection = ConnectionUtil.getConnection();
+        this.connection = connection;
     }
 
     public void truncateTable() throws SQLException {

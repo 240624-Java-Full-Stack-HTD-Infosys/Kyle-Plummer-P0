@@ -1,6 +1,8 @@
 package com.revature.p0.models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 public class User {
@@ -9,6 +11,8 @@ public class User {
     private String lastName;
     private String username;
     private String password;
+
+    @JsonManagedReference
     private List<Task> tasks;
 
     public User(Integer userId, String firstName, String lastName, String username, String password) {
