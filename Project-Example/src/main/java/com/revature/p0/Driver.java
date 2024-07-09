@@ -9,6 +9,7 @@ public class Driver {
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         ServerUtil.getServerUtil().initialize(7777);
 
+        ServerUtil.getServerUtil().executeSqlScript("create_table_1.sql");
 
     }
 }

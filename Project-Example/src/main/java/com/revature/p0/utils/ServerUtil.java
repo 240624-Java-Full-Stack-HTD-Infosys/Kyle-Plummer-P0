@@ -8,9 +8,11 @@ import com.revature.p0.services.TaskService;
 import com.revature.p0.services.UserService;
 import io.javalin.Javalin;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ServerUtil {
     private static ServerUtil serverUtil;
@@ -36,6 +38,24 @@ public class ServerUtil {
         TaskController taskController = new TaskController(taskService, userService, api);
 
         return api;
+    }
+
+    public void executeSqlScript(String resourceName) throws IOException, SQLException, ClassNotFoundException {
+        InputStream inputStream = ServerUtil.class.getClassLoader().getResourceAsStream(resourceName);
+        InputStreamReader reader = new InputStreamReader(inputStream);
+        BufferedReader buff = new BufferedReader(reader);
+        StringBuilder sql = new StringBuilder();
+        while(buff.ready()) {
+            sql.append((char)buff.read());
+        }
+
+        System.out.println(sql);
+        Connection conn = ConnectionUtil.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+        pstmt.executeUpdate();
+
+
+
     }
 
 }
