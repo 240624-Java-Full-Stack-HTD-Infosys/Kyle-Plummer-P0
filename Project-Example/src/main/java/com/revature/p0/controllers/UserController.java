@@ -32,20 +32,6 @@ public class UserController {
         api.get("/user/{username}", this::getUserByUsername);
         api.put("/user", this::updateUser);
         api.delete("user", this::deleteUser);
-
-        /*
-        Exception handlers
-         */
-        api.exception(RuntimeException.class, this::runtimeExceptionHandler);
-        api.exception(SQLException.class, this::sqlExceptionHandler);
-        api.exception(UnauthorizedAccessException.class, this::unauthorizedAccessExceptionHandler);
-        api.exception(BadPasswordException.class, this::badPasswordExceptionHandler);
-        api.exception(NoSuchUserException.class, this::noSuchUserExceptionHandler);
-
-        /*
-        Error handlers
-         */
-        api.error(500, this::genericServerErrorHandler);
     }
 
     /**
@@ -111,59 +97,7 @@ public class UserController {
         }
     }
 
-    /**
-     *
-     * @param e
-     * @param ctx
-     */
-    public void runtimeExceptionHandler(RuntimeException e, Context ctx) {
-        ctx.status(500);
-    }
 
-    /**
-     *
-     * @param e
-     * @param ctx
-     */
-    public void sqlExceptionHandler(SQLException e, Context ctx) {
-        ctx.status(500);
-    }
 
-    /**
-     *
-     * @param e
-     * @param ctx
-     */
-    public void noSuchUserExceptionHandler(NoSuchUserException e, Context ctx) {
-        ctx.status(400);
-        ctx.result("That user does not exist.");
-    }
 
-    /**
-     *
-     * @param e
-     * @param ctx
-     */
-    public void badPasswordExceptionHandler(BadPasswordException e, Context ctx) {
-        ctx.status(401);
-        ctx.result("Incorrect password.");
-    }
-
-    /**
-     *
-     * @param e
-     * @param ctx
-     */
-    public void unauthorizedAccessExceptionHandler(UnauthorizedAccessException e, Context ctx) {
-        ctx.status(401);
-        ctx.result(e.getMessage());
-    }
-
-    /**
-     *
-     * @param ctx
-     */
-    public void genericServerErrorHandler(Context ctx) {
-        ctx.result("An internal server error has occurred.");
-    }
 }

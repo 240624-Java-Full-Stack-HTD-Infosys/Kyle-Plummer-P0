@@ -2,7 +2,6 @@ package com.revature.p0.daos;
 
 import com.revature.p0.models.Task;
 import com.revature.p0.models.User;
-import com.revature.p0.utils.ConnectionUtil;
 
 import java.io.IOException;
 import java.sql.*;
@@ -53,8 +52,15 @@ public class TaskDao {
         return task;
     }
 
-    public void updateTask(Task task) {
-        String sql = "";
+    public void updateTask(Task task) throws SQLException {
+        String sql = "UPDATE tasks SET title = ?, description = ?, complete = ? WHERE task_id = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, task.getTitle());
+        pstmt.setString(2, task.getDescription());
+        pstmt.setBoolean(3, task.isComplete());
+        pstmt.setInt(4, task.getTaskId());
+
+        pstmt.executeUpdate();
     }
 
 

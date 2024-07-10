@@ -21,4 +21,8 @@ public class TaskService {
     public Task saveTask(Task task) throws SQLException {
         return taskDao.persistNewTask(task);
     }
+
+    public void updateTask(Task task) throws SQLException {
+        this.taskDao.updateTask(task);
+    }
 }

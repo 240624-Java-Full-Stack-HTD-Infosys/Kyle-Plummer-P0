@@ -15,7 +15,7 @@ public class Driver {
 
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         LOGGER.info("Server starting on port: " + PORT);
-        ServerUtil.getServerUtil().initialize(PORT);
+        ServerUtil.initialize(PORT);
 
 
         //ServerUtil.getServerUtil().executeSqlScript("create_users_table.sql");
