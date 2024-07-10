@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class ExceptionController {
 
     public ExceptionController(Javalin api) {
-                /*
+        /*
         Exception handlers
          */
         api.exception(RuntimeException.class, this::runtimeExceptionHandler);

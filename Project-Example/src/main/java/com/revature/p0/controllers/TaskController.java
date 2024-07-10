@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class TaskController {
@@ -28,6 +29,7 @@ public class TaskController {
 
         api.post("/tasks", this::postNewTask);
         api.put("/tasks", this::updateTask);
+        api.get("/tasks/{username}", this::getTasksForUser);
 
 
     }
@@ -57,9 +59,18 @@ public class TaskController {
         Task task = ctx.bodyAsClass(Task.class);
         user.getTasks().add(task);
         task.setUser(user);
-
-
-
     }
+
+    public void getTasksForUser(Context ctx) throws UnauthorizedAccessException, SQLException {
+        String username = ctx.cookie("Auth");
+        if(!CookieUtil.validateAuthCookie(username)) {
+            throw new UnauthorizedAccessException("user is not authorized");
+        }
+        List<Task> taskList = this.taskService.getTasksForUser(ctx.bodyAsClass(User.class));
+        ctx.json(taskList);
+        ctx.status(200);
+    }
+
+
 
 }
