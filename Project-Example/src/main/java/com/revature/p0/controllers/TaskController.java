@@ -1,19 +1,23 @@
 package com.revature.p0.controllers;
 
+import com.revature.p0.exceptions.NoSuchUserException;
 import com.revature.p0.models.Task;
 import com.revature.p0.models.User;
 import com.revature.p0.services.TaskService;
 import com.revature.p0.services.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
 
 public class TaskController {
-    TaskService taskService;
-    UserService userService;
-    Javalin api;
+    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
+    private final TaskService taskService;
+    private final UserService userService;
+    private final Javalin api;
 
     public TaskController(TaskService taskService, UserService userService, Javalin api) {
         this.taskService = taskService;
@@ -22,17 +26,11 @@ public class TaskController {
 
         api.post("/tasks", this::createNewTaskForUser);
 
+//        api.put("/tasks", this::updateTask);
+
     }
 
-/*
-{
-    "title": "value",
-    "description": "value"
-}
- */
-
-
-    public void createNewTaskForUser(Context ctx) throws SQLException {
+    public void createNewTaskForUser(Context ctx) throws SQLException, NoSuchUserException {
         String authUsername = ctx.cookie("Auth");//We will assume all cookies are untouched, and valid. We aren't very secure here, but this is okay for P0
         if(authUsername == null) {
             //this means cookie wasn't present, so requester is unauthenticated
@@ -47,7 +45,9 @@ public class TaskController {
             ctx.json(newTask);
             ctx.status(201);
         }
-
-
     }
+
+//    public void updateTask(Context ctx) {
+//        if(ctx.cookie())
+//    }
 }

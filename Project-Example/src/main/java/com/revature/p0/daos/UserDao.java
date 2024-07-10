@@ -13,34 +13,15 @@ public class UserDao {
         this.connection = connection;
     }
 
-    public void truncateTable() throws SQLException {
-        String sql = "TRUNCATE TABLE users";
+    public boolean checkUserExists(String username) throws SQLException {
+        String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.execute();
+        pstmt.setString(1, username);
+        ResultSet results = pstmt.executeQuery();
+
+        return results.next();
     }
 
-    public void dropTable() throws SQLException {
-        String sql = "DROP TABLE IF EXISTS users";
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate(sql);
-    }
-
-    public void createTable() throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name VARCHAR(40), last_name CHAR(40), username VARCHAR(40) UNIQUE, password VARCHAR(40) NOT NULL);";
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate(sql);
-    }
-
-    public void populateTable() throws SQLException {
-        String sql = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-
-        pstmt.setString(1, "Kyle");
-        pstmt.setString(2, "Plummer");
-        pstmt.setString(3, "kplummer");
-        pstmt.setString(4, "pass123");
-        pstmt.executeUpdate();
-    }
 
     public User getUser(int id) throws SQLException {
         String sql = "SELECT * FROM users WHERE id = ?";
@@ -111,6 +92,10 @@ public class UserDao {
         }
 
         return user;
+    }
+
+    public void deleteUser(User user) {
+        //TODO: Implement delete, clear tasks for user as well
     }
 
 

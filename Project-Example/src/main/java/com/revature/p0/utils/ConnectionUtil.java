@@ -13,14 +13,12 @@ public class ConnectionUtil {
         /*
         First we want to load the properties from application.properties. We want to avoid hard coding our credentials
         in the repo.
-
         We use the class loader to gain access to "resources" which are files on the classpath
-
         We use a Properties object which can parse our key/value pairs. We ask for the key, we get the value.
-
          */
 
-        InputStream inputStream = ConnectionUtil.class.getClassLoader().getResourceAsStream("application.properties");
+        InputStream inputStream = ConnectionUtil.class.getClassLoader()
+                .getResourceAsStream("application.properties");
         Properties props = new Properties();
         props.load(inputStream);
 
@@ -28,17 +26,10 @@ public class ConnectionUtil {
         Now that we have our properties we can use these to establish a connection
          */
         Class.forName("org.postgresql.Driver");
-        Connection conn = DriverManager.getConnection(props.getProperty("url"), props.getProperty("username"), props.getProperty("password"));
-
-
-
-        /*
-        Now that we have a connection to the database we can use it to create statements to execute.
-         */
-//        String sql = "INSERT INTO test VALUES (1, 'kplummer')";
-//        PreparedStatement pstmt = conn.prepareStatement(sql);
-//
-//        pstmt.executeUpdate();
+        Connection conn = DriverManager.getConnection(
+                props.getProperty("url"),
+                props.getProperty("username"),
+                props.getProperty("password"));
 
         return conn;
     }

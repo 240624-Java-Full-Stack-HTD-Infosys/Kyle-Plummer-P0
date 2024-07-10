@@ -12,7 +12,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.sql.Statement;
 
 public class ServerUtil {
     private static ServerUtil serverUtil;
@@ -40,7 +40,7 @@ public class ServerUtil {
         return api;
     }
 
-    public void executeSqlScript(String resourceName) throws IOException, SQLException, ClassNotFoundException {
+    public static void executeSqlScript(String resourceName) throws IOException, SQLException, ClassNotFoundException {
         InputStream inputStream = ServerUtil.class.getClassLoader().getResourceAsStream(resourceName);
         InputStreamReader reader = new InputStreamReader(inputStream);
         BufferedReader buff = new BufferedReader(reader);
@@ -57,5 +57,35 @@ public class ServerUtil {
 
 
     }
+//
+//
+//    public void truncateTable() throws SQLException {
+//        String sql = "TRUNCATE TABLE users";
+//        PreparedStatement pstmt = connection.prepareStatement(sql);
+//        pstmt.execute();
+//    }
+//
+//    public void dropTable() throws SQLException {
+//        String sql = "DROP TABLE IF EXISTS users";
+//        Statement stmt = connection.createStatement();
+//        stmt.executeUpdate(sql);
+//    }
+//
+//    public void createTable() throws SQLException {
+//        String sql = "CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, first_name VARCHAR(40), last_name CHAR(40), username VARCHAR(40) UNIQUE, password VARCHAR(40) NOT NULL);";
+//        Statement stmt = connection.createStatement();
+//        stmt.executeUpdate(sql);
+//    }
+//
+//    public void populateTable() throws SQLException {
+//        String sql = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)";
+//        PreparedStatement pstmt = connection.prepareStatement(sql);
+//
+//        pstmt.setString(1, "Kyle");
+//        pstmt.setString(2, "Plummer");
+//        pstmt.setString(3, "kplummer");
+//        pstmt.setString(4, "pass123");
+//        pstmt.executeUpdate();
+//    }
 
 }
